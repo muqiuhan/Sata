@@ -5,8 +5,7 @@ import com.muqiuhan.sata.Transform
 import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 
-/** Resize and pad the image so that it satisfies the stride constraints and
-  * record the parameters
+/** Resize and pad the image so that it satisfies the stride constraints and record the parameters
   */
 class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
   private val NEW_SHAPE: Size = Size(1280, 1280)
@@ -20,16 +19,19 @@ class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
   private var dh: Double = .0
 
   private def computeRatio(shape: Array[Int]): Double =
-    val ratio =
-      Math.min(NEW_SHAPE.height / shape(0), NEW_SHAPE.width / shape(1))
+    val ratio = Math.min(NEW_SHAPE.height / shape(0), NEW_SHAPE.width / shape(1))
 
-    if !SCALEUP then Math.min(ratio, 1.0)
-    else ratio
+    if !SCALEUP then
+      Math.min(ratio, 1.0)
+    else
+      ratio
 
   private def autoSmallestRectangle(dw: Double, dh: Double): (Double, Double) =
     // When filling, fill half of the sides, so that the image is in the center
-    if AUTO then ((dw % STRIDE) / 2, (dh % STRIDE) / 2)
-    else (dw / 2, dh / 2)
+    if AUTO then
+      ((dw % STRIDE) / 2, (dh % STRIDE) / 2)
+    else
+      (dw / 2, dh / 2)
 
   private def resize(shape: Array[Int], newUnpad: Size): Unit =
     if shape(1) != newUnpad.width || shape(0) != newUnpad.height then
@@ -37,16 +39,7 @@ class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
 
   // Fill the image into a square
   private def fill(top: Int, bottom: Int, left: Int, right: Int): Unit =
-    Core.copyMakeBorder(
-      source,
-      source,
-      top,
-      bottom,
-      left,
-      right,
-      Core.BORDER_CONSTANT,
-      new Scalar(COLOR)
-    )
+    Core.copyMakeBorder(source, source, top, bottom, left, right, Core.BORDER_CONSTANT, new Scalar(COLOR))
 
     this.ratio = ratio
     this.dh = dh
@@ -55,12 +48,8 @@ class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
   override def trans(): Mat =
     val shape = Array(source.rows, source.cols)
     val ratio = computeRatio(shape)
-    val newUnpad =
-      Size(Math.round(shape(1) * ratio), Math.round(shape(0) * ratio))
-    val (dw, dh) = autoSmallestRectangle(
-      NEW_SHAPE.width - newUnpad.width,
-      NEW_SHAPE.height - newUnpad.height
-    )
+    val newUnpad = Size(Math.round(shape(1) * ratio), Math.round(shape(0) * ratio))
+    val (dw, dh) = autoSmallestRectangle(NEW_SHAPE.width - newUnpad.width, NEW_SHAPE.height - newUnpad.height)
 
     resize(shape, newUnpad)
     fill(
