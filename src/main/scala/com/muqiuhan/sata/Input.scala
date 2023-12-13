@@ -1,3 +1,5 @@
+/* Copyright 2023 Muqiu Han <muqiu-han@outlook.com> */
+
 package com.muqiuhan.sata
 
 /** Convert data to `Output` type for `Processer` to process */

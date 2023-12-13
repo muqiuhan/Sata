@@ -1,3 +1,5 @@
+/* Copyright 2023 Muqiu Han <muqiu-han@outlook.com> */
+
 package com.muqiuhan.sata.image.object_detection.processor
 
 case class ModelResult(x: Array[Float]):
