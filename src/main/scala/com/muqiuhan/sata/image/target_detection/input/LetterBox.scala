@@ -1,14 +1,14 @@
-package com.muqiuhan.sata.image.target_detection
+package com.muqiuhan.sata.image.target_detection.input
 
 import com.muqiuhan.sata
+import com.muqiuhan.sata.Transform
 import org.opencv.core.*
-import org.opencv.imgcodecs.Imgcodecs
 import org.opencv.imgproc.Imgproc
 
-import java.io.File
-import java.nio.file.InvalidPathException
-
-class LetterBox(source: Mat) extends sata.intf.Transform[Mat, Mat](source):
+/** Resize and pad the image so that it satisfies the stride constraints and
+  * record the parameters
+  */
+class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
   private val NEW_SHAPE: Size = Size(1280, 1280)
   private val COLOR: Array[Double] = Array(144, 144, 144)
   private val AUTO: Boolean = false
@@ -71,9 +71,3 @@ class LetterBox(source: Mat) extends sata.intf.Transform[Mat, Mat](source):
     )
 
     source
-
-class Input(transform: LetterBox)
-    extends sata.intf.Input[String, Mat](transform):
-  override def input(source: String): Mat =
-    if File(source).exists() then Imgcodecs.imread(source)
-    else throw InvalidPathException(source, "Cannot find it")

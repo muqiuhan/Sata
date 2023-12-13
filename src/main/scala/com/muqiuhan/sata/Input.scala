@@ -1,4 +1,4 @@
-package com.muqiuhan.sata.intf
+package com.muqiuhan.sata
 
 /** Read the data that needs to be operated and convert it to `Output` type data
   * through `transform`
