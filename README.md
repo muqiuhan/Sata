@@ -4,6 +4,8 @@
 
 *Simple cross-platform image processing toolkit*
 
+![Build](https://github.com/muqiuhan/sata/actions/workflows/ci.yaml/badge.svg)
+
 </div>
 
 ## Introduction
