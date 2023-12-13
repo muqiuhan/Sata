@@ -7,16 +7,19 @@ import org.opencv.imgproc.Imgproc
 
 /** Resize and pad the image so that it satisfies the stride constraints and record the parameters
   */
-class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
+case class LetterBox(source: Mat) extends Transform[Mat, Mat](source):
   private val NEW_SHAPE: Size = Size(1280, 1280)
   private val COLOR: Array[Double] = Array(144, 144, 144)
   private val AUTO: Boolean = false
   private val SCALEUP: Boolean = true
   private val STRIDE: Int = 32
 
-  private var ratio: Double = .0
-  private var dw: Double = .0
-  private var dh: Double = .0
+  var ratio: Double = .0
+  var dw: Double = .0
+  var dh: Double = .0
+
+  def height(): Int = NEW_SHAPE.height.asInstanceOf[Int]
+  def width(): Int = NEW_SHAPE.width.asInstanceOf[Int]
 
   private def computeRatio(shape: Array[Int]): Double =
     val ratio = Math.min(NEW_SHAPE.height / shape(0), NEW_SHAPE.width / shape(1))

@@ -8,9 +8,12 @@ import org.opencv.imgproc.Imgproc
 import java.io.File
 import java.nio.file.InvalidPathException
 
-class Transform(source: Mat) extends sata.Transform[Mat, Mat](source):
+case class Transform(source: Mat) extends sata.Transform[Mat, Mat](source):
+
+  val letterBox: LetterBox = LetterBox(source)
+
   override def trans(): Mat =
-    val image = LetterBox(source).trans()
+    val image = letterBox.trans()
     Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2RGB)
     image.clone()
 
