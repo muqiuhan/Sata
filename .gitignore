@@ -33,3 +33,5 @@ metals.sbt
 
 # lib
 /lib
+
+*.onnx

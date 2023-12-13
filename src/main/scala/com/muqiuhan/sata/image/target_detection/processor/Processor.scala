@@ -9,7 +9,7 @@ import org.opencv.imgproc.Imgproc
 import java.nio.FloatBuffer
 import java.util
 
-class Detection(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata.Processor[Mat, Mat](input):
+class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata.Processor[Mat, Mat](input):
 
   override def process(): Mat =
     val environment: OrtEnvironment = OrtEnvironment.getEnvironment
@@ -61,5 +61,5 @@ class Detection(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata
 
     input
 
-case object Detection:
+case object Processor:
   System.loadLibrary(Core.NATIVE_LIBRARY_NAME)

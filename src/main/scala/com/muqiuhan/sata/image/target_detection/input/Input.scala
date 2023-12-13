@@ -8,18 +8,22 @@ import org.opencv.imgproc.Imgproc
 import java.io.File
 import java.nio.file.InvalidPathException
 
-case class Transform(source: Mat) extends sata.Transform[Mat, Mat](source):
-
-  val letterBox: LetterBox = LetterBox(source)
+class Transform(image: Mat) extends sata.Transform[Mat, Mat](image):
+  val letterbox: LetterBox = LetterBox(image)
 
   override def trans(): Mat =
-    val image = letterBox.trans()
+    val image = letterbox.trans()
     Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2RGB)
     image.clone()
 
-class Input(transform: Transform) extends sata.Input[String, Mat](transform):
-  override def input(source: String): Mat =
+case class Input(source: String) extends sata.Input[String, Mat](source):
+
+  val image: Mat =
     if File(source).exists() then
       Imgcodecs.imread(source)
     else
       throw InvalidPathException(source, "Cannot find it")
+
+  val transform: Transform = Transform(image)
+
+  override def input(): Mat = transform.trans()

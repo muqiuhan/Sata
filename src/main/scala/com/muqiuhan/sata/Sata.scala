@@ -7,4 +7,4 @@ trait Sata[Input, ProcessorInput, ProcessorOutput, Output](
     processor: sata.Processor[ProcessorInput, ProcessorOutput],
     output: sata.Output[ProcessorOutput, Output]
 ):
-  def start(): Output
+  def run(input: Input): Output
