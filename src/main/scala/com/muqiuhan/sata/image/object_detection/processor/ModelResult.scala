@@ -9,4 +9,4 @@ case class ModelResult(x: Array[Float]):
   val clsId: Int = x(5).asInstanceOf[Int]
   val score: Float = x(6)
 
-  override def toString: String = s"o- $batchId | $x0 | $y0 | $x1 | $y1 | $clsId | $score"
+  override def toString: String = s"| $batchId | $x0 | $y0 | $x1 | $y1 | $clsId | $score |"

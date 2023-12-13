@@ -13,7 +13,7 @@ class Test extends munit.FunSuite:
     val processor = object_detection
       .processor
       .Processor(
-        input.image,
+        input.input(),
         "./src/main/scala/com/muqiuhan/sata/image/object_detection/yolov7-d6.onnx",
         input.transform.letterbox
       )
