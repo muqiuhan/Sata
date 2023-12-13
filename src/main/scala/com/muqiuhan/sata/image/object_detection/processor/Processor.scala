@@ -4,7 +4,6 @@ import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import org.opencv.core.*
 import com.muqiuhan.sata
 import com.muqiuhan.sata.image.object_detection.input.LetterBox
-import org.opencv.highgui.HighGui
 import org.opencv.imgproc.Imgproc
 
 import java.nio.FloatBuffer
