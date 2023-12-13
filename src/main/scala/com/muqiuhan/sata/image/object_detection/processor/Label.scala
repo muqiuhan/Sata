@@ -1,4 +1,4 @@
-package com.muqiuhan.sata.image.target_detection.processor
+package com.muqiuhan.sata.image.object_detection.processor
 
 import java.util
 import java.util.Random

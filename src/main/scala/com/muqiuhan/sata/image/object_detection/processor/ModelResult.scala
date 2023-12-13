@@ -1,4 +1,4 @@
-package com.muqiuhan.sata.image.target_detection.processor
+package com.muqiuhan.sata.image.object_detection.processor
 
 case class ModelResult(x: Array[Float]):
   val batchId: Int = x(0).asInstanceOf[Int]

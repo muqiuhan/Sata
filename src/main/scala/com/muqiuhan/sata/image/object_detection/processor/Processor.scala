@@ -1,9 +1,9 @@
-package com.muqiuhan.sata.image.target_detection.processor
+package com.muqiuhan.sata.image.object_detection.processor
 
 import ai.onnxruntime.{OnnxTensor, OrtEnvironment, OrtSession}
 import org.opencv.core.*
 import com.muqiuhan.sata
-import com.muqiuhan.sata.image.target_detection.input.LetterBox
+import com.muqiuhan.sata.image.object_detection.input.LetterBox
 import org.opencv.imgproc.Imgproc
 
 import java.nio.FloatBuffer
@@ -31,10 +31,10 @@ class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata
     val channels: Int = input.channels()
     val pixels: Array[Float] = new Array[Float](channels * rows * cols)
 
-    for i <- 0 to rows do
-      for j <- 0 to cols do
+    for i <- 0 until rows do
+      for j <- 0 until cols do
         val pixel = input.get(j, i)
-        for k <- 0 to channels do
+        for k <- 0 until channels do
           pixels(rows * cols * k + j * cols + i) = pixel(k).asInstanceOf[Float]
 
     val shape: Array[Long] = Array(1L, channels, rows, cols)
@@ -60,6 +60,3 @@ class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata
     })
 
     input
-
-case object Processor:
-  System.loadLibrary(Core.NATIVE_LIBRARY_NAME)

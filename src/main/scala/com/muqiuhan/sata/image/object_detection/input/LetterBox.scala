@@ -1,4 +1,4 @@
-package com.muqiuhan.sata.image.target_detection.input
+package com.muqiuhan.sata.image.object_detection.input
 
 import com.muqiuhan.sata
 import com.muqiuhan.sata.Transform

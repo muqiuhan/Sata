@@ -1,4 +1,4 @@
-package com.muqiuhan.sata.image.target_detection.output
+package com.muqiuhan.sata.image.object_detection.output
 
 import org.opencv.core.*
 import com.muqiuhan.sata
