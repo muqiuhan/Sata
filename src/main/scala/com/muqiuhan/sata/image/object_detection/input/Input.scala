@@ -13,13 +13,13 @@ import java.nio.file.InvalidPathException
 
 case class Input(source: String) extends sata.Input[String, Mat](source):
 
-  val letterbox: LetterBox = LetterBox(image)
-
   val image: Mat =
     if File(source).exists() then
       Imgcodecs.imread(source)
     else
       throw InvalidPathException(source, "Cannot find it")
+
+  val letterbox: LetterBox = LetterBox(image)
 
   override def input(transform: Transform[Mat, Mat]): Mat =
     val image = letterbox.trans()
