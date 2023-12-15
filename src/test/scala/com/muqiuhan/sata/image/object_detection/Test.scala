@@ -3,25 +3,25 @@
 package com.muqiuhan.sata.image.object_detection
 
 import com.muqiuhan.sata
-import com.muqiuhan.sata.image.object_detection.input.Input
-import com.muqiuhan.sata.image.object_detection.output.Output
-import com.muqiuhan.sata.image.object_detection.processor.Processor
+import com.muqiuhan.sata.image.object_detection
 import org.opencv.core.*
 
 class Test extends munit.FunSuite:
 
   System.loadLibrary(Core.NATIVE_LIBRARY_NAME)
 
-  object ObjectDetection extends sata.Sata[String, Mat, Mat, Unit]:
-    val input: Input = Input("./src/test/scala/com/muqiuhan/sata/image/object_detection/test.jpg")
-    val processor: Processor = Processor(
-      input.input(input.letterbox),
-      "./src/main/scala/com/muqiuhan/sata/image/object_detection/yolov7-d6.onnx",
-      input.letterbox
-    )
-
-    val output: Output = Output(processor.process())
-
   test("Image object detection") {
-    ObjectDetection.run()
+    val input = object_detection.input.Input("./src/test/scala/com/muqiuhan/sata/image/object_detection/test.jpg")
+    val processor = object_detection
+      .processor
+      .Processor(
+        input.input(),
+        "./src/main/scala/com/muqiuhan/sata/image/object_detection/yolov7-d6.onnx",
+        input.transform.letterbox
+      )
+    val output = object_detection.output.Output(processor.process())
+
+    class Run extends sata.Sata[String, Mat, Mat, Unit](input, processor, output):
+      override def run(): Unit = output.output()
+    Run().run()
   }

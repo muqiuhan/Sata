@@ -12,4 +12,4 @@ trait Input[Input, Output](source: Input):
 
   /** This function needs to verify whether the read data is legal, and the remaining work is left to `transform`
     */
-  def input(transform: Transform[Output, Output]): Output = transform.trans()
+  def input(): Output
