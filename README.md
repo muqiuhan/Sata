@@ -17,30 +17,29 @@ This is an image processing toolkit written in Scala, which will contain many im
 
 ## Usage
 
-This project uses opencv 4.8.1, So you need to make sure that `opencv-481.jar` is in your system's classpath, Or you can specify its path, for example:
+Sata uses opencv 4.8.1, So you need to make sure that `opencv-481.jar` is in your system's classpath, Or you can specify its path, for example:
 ```shell
 -Djava.library.path=/usr/local/share/java/opencv4/
 ```
 
 For developers, you need to create a new directory `lib` in the project root, Then put `opencv-481.jar` into it. This is for integration with IDE.
 
-### Detect target objects in images
+__E.g: Detect target objects in images__:
 ```scala
-val input = object_detection.input.Input("Image Path")
-val processor = object_detection
-  .processor
-  .Processor(
-    input.input(),
-    "Your ONNX model path",
-    input.transform.letterbox
+object ObjectDetection extends sata.Sata[String, Mat, Mat, Unit]:
+  val input: Input = Input("./src/test/scala/com/muqiuhan/sata/image/object_detection/test.jpg")
+  val processor: Processor = Processor(
+    input.input(input.letterbox),
+    "./src/main/scala/com/muqiuhan/sata/image/object_detection/yolov7-d6.onnx",
+    input.letterbox
   )
+  
+  val output: Output = Output(processor.process())
+```
 
-val output = object_detection.output.Output(processor.process())
-
-class Run extends sata.Sata[String, Mat, Mat, Unit](input, processor, output):
-  override def run(): Unit = output.output()
-
-Run().run()
+then
+```scala
+ObjectDetection.run()
 ```
 
 ## [LICENSE](./LICENSE)
