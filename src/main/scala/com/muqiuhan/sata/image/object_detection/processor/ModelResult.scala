@@ -2,7 +2,7 @@
 
 package com.muqiuhan.sata.image.object_detection.processor
 
-case class ModelResult(x: Array[Float]):
+case class ModelResult(x: Array[Float]) {
   val batchId: Int = x(0).asInstanceOf[Int]
   val x0: Float = x(1)
   val y0: Float = x(2)
@@ -12,3 +12,4 @@ case class ModelResult(x: Array[Float]):
   val score: Float = x(6)
 
   override def toString: String = s"| $batchId\t | $x0\t | $y0\t | $x1\t | $y1\t | $clsId\t | $score\t |"
+}

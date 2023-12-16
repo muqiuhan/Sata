@@ -11,9 +11,9 @@ import org.opencv.imgproc.Imgproc
 import java.nio.FloatBuffer
 import java.util
 
-class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata.Processor[Mat, Mat](input):
+class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata.Processor[Mat, Mat](input) {
 
-  override def process(): Mat =
+  override def process(): Mat = {
     val environment: OrtEnvironment = OrtEnvironment.getEnvironment
 
     val sessionOptions: OrtSession.SessionOptions = OrtSession.SessionOptions()
@@ -33,11 +33,14 @@ class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata
     val channels: Int = input.channels()
     val pixels: Array[Float] = new Array[Float](channels * rows * cols)
 
-    for i <- 0 until rows do
-      for j <- 0 until cols do
+    for (i <- 0 until rows) {
+      for (j <- 0 until cols) {
         val pixel = input.get(j, i)
-        for k <- 0 until channels do
+        for (k <- 0 until channels) {
           pixels(rows * cols * k + j * cols + i) = pixel(k).asInstanceOf[Float]
+        }
+      }
+    }
 
     val shape: Array[Long] = Array(1L, channels, rows, cols)
     val tensor: OnnxTensor = OnnxTensor.createTensor(environment, FloatBuffer.wrap(pixels), shape)
@@ -62,3 +65,5 @@ class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata
     })
 
     input
+  }
+}
