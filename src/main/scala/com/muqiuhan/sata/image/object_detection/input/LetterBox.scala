@@ -20,8 +20,8 @@ case class LetterBox(source: Mat) extends Transform[Mat, Mat](source) {
   var dw: Double = .0
   var dh: Double = .0
 
-  def height(): Int = NEW_SHAPE.height.asInstanceOf[Int]
-  def width(): Int = NEW_SHAPE.width.asInstanceOf[Int]
+  def height(): Int = NEW_SHAPE.height.toInt
+  def width(): Int = NEW_SHAPE.width.toInt
 
   private def computeRatio(shape: Array[Int]): Double = {
     val ratio = Math.min(NEW_SHAPE.height / shape(0), NEW_SHAPE.width / shape(1))
@@ -60,16 +60,11 @@ case class LetterBox(source: Mat) extends Transform[Mat, Mat](source) {
   override def trans(): Mat = {
     val shape = Array(source.rows, source.cols)
     val ratio = computeRatio(shape)
-    val newUnpad = Size(Math.round(shape(1) * ratio), Math.round(shape(0) * ratio))
+    val newUnpad = Size(Math.round(shape(1) * ratio).toDouble, Math.round(shape(0) * ratio).toDouble)
     val (dw, dh) = autoSmallestRectangle(NEW_SHAPE.width - newUnpad.width, NEW_SHAPE.height - newUnpad.height)
 
     resize(shape, newUnpad)
-    fill(
-      Math.round(dh - 0.1).asInstanceOf[Int],
-      Math.round(dh + 0.1).asInstanceOf[Int],
-      Math.round(dw - 0.1).asInstanceOf[Int],
-      Math.round(dw + 0.1).asInstanceOf[Int]
-    )
+    fill(Math.round(dh - 0.1).toInt, Math.round(dh + 0.1).toInt, Math.round(dw - 0.1).toInt, Math.round(dw + 0.1).toInt)
     source
   }
 }

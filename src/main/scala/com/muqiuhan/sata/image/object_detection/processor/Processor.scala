@@ -14,42 +14,42 @@ import java.util
 class Processor(input: Mat, onnxPath: String, letterbox: LetterBox) extends sata.Processor[Mat, Mat](input) {
 
   override def process(): Mat = {
-    val environment: OrtEnvironment = OrtEnvironment.getEnvironment
+    val environment = OrtEnvironment.getEnvironment
 
-    val sessionOptions: OrtSession.SessionOptions = OrtSession.SessionOptions()
-    val session: OrtSession = environment.createSession(onnxPath, sessionOptions)
+    val sessionOptions = OrtSession.SessionOptions()
+    val session = environment.createSession(onnxPath, sessionOptions)
 
-    val minDwDh: Int = Math.min(input.width(), input.height())
-    val thickness: Int = minDwDh / 333
-    val fontSize: Double = minDwDh / 1145.14
-    val fontFace: Int = Imgproc.FONT_HERSHEY_SIMPLEX
-    val fontColor: Scalar = Scalar(255, 255, 255)
+    val minDwDh = Math.min(input.width(), input.height())
+    val thickness = minDwDh / 333
+    val fontSize = minDwDh / 1145.14
+    val fontFace = Imgproc.FONT_HERSHEY_SIMPLEX
+    val fontColor = Scalar(255, 255, 255)
 
-    val ratio: Double = letterbox.ratio
-    val dw: Double = letterbox.dw
-    val dh: Double = letterbox.dh
-    val rows: Int = letterbox.height()
-    val cols: Int = letterbox.width()
-    val channels: Int = input.channels()
-    val pixels: Array[Float] = new Array[Float](channels * rows * cols)
+    val ratio = letterbox.ratio
+    val dw = letterbox.dw
+    val dh = letterbox.dh
+    val rows = letterbox.height()
+    val cols = letterbox.width()
+    val channels = input.channels()
+    val pixels = new Array[Float](channels * rows * cols)
 
     for (i <- 0 until rows) {
       for (j <- 0 until cols) {
         val pixel = input.get(j, i)
         for (k <- 0 until channels) {
-          pixels(rows * cols * k + j * cols + i) = pixel(k).asInstanceOf[Float]
+          pixels(rows * cols * k + j * cols + i) = pixel(k).toFloat
         }
       }
     }
 
-    val shape: Array[Long] = Array(1L, channels, rows, cols)
-    val tensor: OnnxTensor = OnnxTensor.createTensor(environment, FloatBuffer.wrap(pixels), shape)
-    val stringOnnxTensorHashMap: util.HashMap[String, OnnxTensor] = util.HashMap[String, OnnxTensor]()
+    val shape = Array(1L, channels, rows, cols)
+    val tensor = OnnxTensor.createTensor(environment, FloatBuffer.wrap(pixels), shape)
+    val stringOnnxTensorHashMap = util.HashMap[String, OnnxTensor]()
 
     stringOnnxTensorHashMap.put(session.getInputInfo.keySet().iterator().next(), tensor)
 
-    val output: OrtSession.Result = session.run(stringOnnxTensorHashMap)
-    val outputData: Array[Array[Float]] = output.get(0).getValue.asInstanceOf[Array[Array[Float]]]
+    val output = session.run(stringOnnxTensorHashMap)
+    val outputData = output.get(0).getValue.asInstanceOf[Array[Array[Float]]]
 
     outputData.foreach(x => {
       val modelResult = ModelResult(x)
