@@ -24,7 +24,7 @@ Sata uses opencv 4.8.1, So you need to make sure that `opencv-481.jar` is in you
 
 For developers, you need to create a new directory `lib` in the project root, Then put `opencv-481.jar` into it. This is for integration with IDE.
 
-__E.g: Detect target objects in images__:
+### Detect target objects in images
 ```scala
 object ObjectDetection extends sata.Sata[String, Mat, Mat, Unit]:
   val input: Input = Input("./src/test/scala/com/muqiuhan/sata/image/object_detection/test.jpg")
@@ -40,6 +40,21 @@ object ObjectDetection extends sata.Sata[String, Mat, Mat, Unit]:
 then
 ```scala
 ObjectDetection.run()
+```
+
+### Enhancement
+
+- Histogram equalization
+- Laplacian
+- Log transformation
+- gamma transform
+
+```scala
+object HistogramEqualization extends sata.Sata[String, Mat, Mat, Unit] {
+  val input: Input = Input("./src/test/scala/com/muqiuhan/sata/image/enhancement/test1.jpg")
+  val processor: HistogramEqualizationProcessor = HistogramEqualizationProcessor(input.image)
+  val output: Output = Output(processor.process())
+}
 ```
 
 ## [LICENSE](./LICENSE)

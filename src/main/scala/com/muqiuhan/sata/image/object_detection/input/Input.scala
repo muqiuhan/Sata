@@ -15,7 +15,7 @@ import java.nio.file.InvalidPathException
 
 case class Input(source: String) extends sata.Input[String, Mat](source), InputFromFile(source) {
   val letterbox: LetterBox = LetterBox(image)
-
+  
   override def input(transform: Transform[Mat, Mat]): Mat = {
     val image = letterbox.trans()
     Imgproc.cvtColor(image, image, Imgproc.COLOR_BGR2RGB)
