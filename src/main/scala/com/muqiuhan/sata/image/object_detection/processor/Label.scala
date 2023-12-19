@@ -5,7 +5,7 @@ package com.muqiuhan.sata.image.object_detection.processor
 import java.util
 import java.util.Random
 
-case object Label:
+case object Label {
   val names: util.List[String] =
     new util.ArrayList[String](
       util
@@ -100,3 +100,4 @@ case object Label:
     val random = Random()
     colors.put(name, Array(random.nextDouble() * 256, random.nextDouble() * 256, random.nextDouble() * 256))
   })
+}
