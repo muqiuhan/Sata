@@ -6,8 +6,10 @@ package com.muqiuhan.sata
   */
 trait Output[Input, Output](input: Input) {
   input.asInstanceOf[Input | Null] match
-    case null => throw NullPointerException("The processor output is null")
-    case _ => ()
+    case null =>
+      throw NullPointerException("The processor output is null")
+    case _ =>
+      ()
 
   def output(): Output
 }
