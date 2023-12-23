@@ -47,12 +47,22 @@ ObjectDetection.run()
 - Histogram equalization
 - Laplacian
 - Log transformation
-- gamma transform
+- Gamma transform
 
 ```scala
 object HistogramEqualization extends sata.Sata[String, Mat, Mat, Unit] {
   val input: Input = Input("./src/test/scala/com/muqiuhan/sata/image/enhancement/test1.jpg")
   val processor: HistogramEqualizationProcessor = HistogramEqualizationProcessor(input.image)
+  val output: Output = Output(processor.process())
+}
+```
+
+Or you can combine them:
+```scala
+object HistogramEqualizationWithGammaTransform extends sata.Sata[String, Mat, Mat, Unit] {
+  val input: Input = Input("./src/test/scala/com/muqiuhan/sata/image/enhancement/test1.jpg")
+  val processor1: LaplacianProcessor = LaplacianProcessor(input.image)
+  val processor: GammaTransformProcessor = GammaTransformProcessor(processor1.process())
   val output: Output = Output(processor.process())
 }
 ```

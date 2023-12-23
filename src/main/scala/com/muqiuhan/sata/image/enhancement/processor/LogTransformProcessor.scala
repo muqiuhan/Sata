@@ -5,7 +5,7 @@ import org.opencv.core.*
 import org.opencv.imgproc.Imgproc
 
 /// TODO: BUG HERE!!! All black
-class LogTransformationProcessor(image: Mat) extends sata.Processor[Mat, Mat](image) {
+class LogTransformProcessor(image: Mat) extends sata.Processor[Mat, Mat](image) {
   override def process(): Mat = {
     val imageLog = Mat(image.size, CvType.CV_32FC3)
     val vals = new Array[Float](3)
